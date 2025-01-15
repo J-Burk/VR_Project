@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2780690635410534763
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1106844995062459817, guid: c2528218f24512e488108ba99191ef6b, type: 3}
+      propertyPath: name
+      value: Steel Spawner
+      objectReference: {fileID: 0}
+    - target: {fileID: 1106844995062459817, guid: c2528218f24512e488108ba99191ef6b, type: 3}
+      propertyPath: itemPrefab
+      value: 
+      objectReference: {fileID: 4515284838630279680, guid: 97aae2ffce63b13428abd84c4b402e8e, type: 3}
+    - target: {fileID: 1106844995062459817, guid: c2528218f24512e488108ba99191ef6b, type: 3}
+      propertyPath: packageType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3435141656393572303, guid: c2528218f24512e488108ba99191ef6b, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3435141656393572303, guid: c2528218f24512e488108ba99191ef6b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.17600524
+      objectReference: {fileID: 0}
+    - target: {fileID: 3435141656393572303, guid: c2528218f24512e488108ba99191ef6b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.2865815
+      objectReference: {fileID: 0}
+    - target: {fileID: 3435141656393572303, guid: c2528218f24512e488108ba99191ef6b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.5054853
+      objectReference: {fileID: 0}
+    - target: {fileID: 3435141656393572303, guid: c2528218f24512e488108ba99191ef6b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3435141656393572303, guid: c2528218f24512e488108ba99191ef6b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3435141656393572303, guid: c2528218f24512e488108ba99191ef6b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3435141656393572303, guid: c2528218f24512e488108ba99191ef6b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3435141656393572303, guid: c2528218f24512e488108ba99191ef6b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3435141656393572303, guid: c2528218f24512e488108ba99191ef6b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3435141656393572303, guid: c2528218f24512e488108ba99191ef6b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6392367019325880117, guid: c2528218f24512e488108ba99191ef6b, type: 3}
+      propertyPath: m_Name
+      value: SpawnerPackage Steel Variant
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c2528218f24512e488108ba99191ef6b, type: 3}

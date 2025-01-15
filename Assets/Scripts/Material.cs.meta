@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 44a9319097db54c479d1f7db4995baef
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - myRenderer: {instanceID: 0}
+  - anvil: {instanceID: 0}
+  - placeHolder1: {instanceID: 0}
+  - placeHolder2: {instanceID: 0}
+  - placeHolder3: {instanceID: 0}
+  - placeHolder4: {instanceID: 0}
+  - placeHolder5: {instanceID: 0}
+  - placeHolder6: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
