@@ -117,8 +117,14 @@ public class OrderSystem : MonoBehaviour
     {
         GameEvents.instance.oPressed += startGame;
         GameEvents.instance.pPressed += pause;
-        dayCountText.text = dayCount.ToString();
-        gameOverText.enabled = false;
+        if (dayCountText != null)
+        {
+            dayCountText.text = dayCount.ToString();
+        }
+        if (gameOverText != null)
+        {
+            gameOverText.enabled = false;
+        }
         weaponSprites = new Sprite[3] { dagger, axe, sword};
         //startGame();
     }

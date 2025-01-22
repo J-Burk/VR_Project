@@ -277,8 +277,12 @@ namespace Valve.VR.InteractionSystem
 		private IEnumerator Start()
 		{
 			_instance = this;
-			ambient.Play();
-            ambient.volume = volume;
+			if (ambient != null)
+			{
+                ambient.Play();
+                ambient.volume = volume;
+            }
+			
             while (SteamVR.initializedState == SteamVR.InitializedStates.None || SteamVR.initializedState == SteamVR.InitializedStates.Initializing)
                 yield return null;
 
@@ -297,12 +301,17 @@ namespace Valve.VR.InteractionSystem
         protected virtual void Update()
         {
 			time += Time.deltaTime;
-			if (time > ambient.clip.length ) { 
-				ambient.Play();
-				ambient.volume = volume;
-				time = 0;
+			if(ambient != null)
+			{
+                if (time > ambient.clip.length)
+                {
+                    ambient.Play();
+                    ambient.volume = volume;
+                    time = 0;
+                }
+                ambient.transform.position = this.gameObject.transform.position;
             }
-			ambient.transform.position = this.gameObject.transform.position;
+			
             if (SteamVR.initializedState != SteamVR.InitializedStates.InitializeSuccess)
                 return;
 

@@ -8,6 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Smithing Main.unity
     guid: 338366d039937e341a58728f2f092b52
+  - enabled: 1
+    path: Assets/Scenes/Mine.unity
+    guid: af03acc4ad7f89948b6c615c987798fb
   m_configObjects:
     Unity.XR.OpenVR.Settings: {fileID: 11400000, guid: 156fb197c05d0a1439d14767c754e7f1, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: bd08a4d52fbe532428ea3e65dbed5067, type: 2}
+  m_UseUCBPForAssetBundles: 0
