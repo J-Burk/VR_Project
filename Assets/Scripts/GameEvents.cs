@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameEvents : MonoBehaviour
@@ -77,7 +76,7 @@ public class GameEvents : MonoBehaviour
     public event Action<float> progressMadeSharpen;
     public void MakeProgressSharpen(float progress)
     {
-        if (progressMadeHammer != null)
+        if (progressMadeSharpen != null)
         {
             progressMadeSharpen(progress);
         }

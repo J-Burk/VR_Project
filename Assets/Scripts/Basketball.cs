@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
-using Valve.VR.InteractionSystem;
 
 public class Basketball : MonoBehaviour
 {
+    //Gameobjects for the Animation and Sound
     float timer = 2;
     public GameObject winParticle;
     bool timerstart = false;
@@ -19,6 +16,7 @@ public class Basketball : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Animation Method And Destruction Timer
         if (active != null && timerstart) { 
             timer -= Time.deltaTime;
             if(timer < 0 )
@@ -30,7 +28,8 @@ public class Basketball : MonoBehaviour
             }
         }
     }
-
+    /*Destroys Object and activates the Sound and Animation
+      @param other used for Destruction*/
     private void OnTriggerEnter(Collider other)
     {
         GameObject temp = other.gameObject;

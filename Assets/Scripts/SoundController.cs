@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 /*Class handling Sound*/
 public class SoundController : MonoBehaviour
@@ -21,9 +18,6 @@ public class SoundController : MonoBehaviour
     //Proximity Sound
     public GameObject player;
     public GameObject oven;
-    private float timeGrind = 0;
-    private bool activeGrind = false;
-    private Vector3 grindPos;
     private float volume = 0.5f;
     const float minDistance = 3.5f;
     const float maxDistance = 4.5f;
@@ -36,17 +30,12 @@ public class SoundController : MonoBehaviour
 
     private void Update()
     {
-        float distance = Vector3.Distance(player.transform.position, oven.transform.position);
-        //Debug.Log("Distance: " + distance);
-        float volumeAdjustment = Mathf.InverseLerp(minDistance, maxDistance, distance);
-        volumeAdjustment = Mathf.Clamp01(volumeAdjustment);
-        fireLoop.volume = volumeAdjustment;
-        if (activeGrind) {
-            timeGrind += Time.deltaTime;
-            if (timeGrind > grindstone.clip.length) {
-                AudioSource.PlayClipAtPoint(grindstone.clip, grindPos, volume);
-                timeGrind = 0;
-            }
+        if(oven != null)
+        {
+            float distance = Vector3.Distance(player.transform.position, oven.transform.position);
+            float volumeAdjustment = Mathf.InverseLerp(minDistance, maxDistance, distance);
+            volumeAdjustment = Mathf.Clamp01(volumeAdjustment);
+            fireLoop.volume = volumeAdjustment;
         }
     }
 

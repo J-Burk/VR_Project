@@ -5,7 +5,7 @@
       "app_key": "application.generated.unity.vr_smithing.exe",
       "launch_type": "url",
       "url": "steam://launch/",
-      "action_manifest_path": "C:\\Projects\\VR_Project_25\\VR_Project-main\\Assets\\StreamingAssets\\SteamVR\\actions.json",
+      "action_manifest_path": "C:\\Users\\Sibs\\VR_Smithing\\Assets\\StreamingAssets\\SteamVR\\actions.json",
       "strings": {
         "en_us": {
           "name": "VR_Smithing [Testing]"

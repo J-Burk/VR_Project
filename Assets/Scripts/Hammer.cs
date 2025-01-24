@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Hammer : MonoBehaviour
@@ -19,48 +17,17 @@ public class Hammer : MonoBehaviour
     {
 
     }
-
+    /* Sets this collided Object if Collided with hammer
+      @collision hammer*/
     private void OnCollisionEnter(Collision collision)
     {
         // Give the Postition where the GameObject hits an other Object
         // With Tag Anvil
-        /**
-        if (collision.gameObject.CompareTag("Anvil"))
-        {
-            collisionX = collision.GetContact(0).point.x;
-            collisionZ = collision.GetContact(0).point.z;
-            Debug.Log("Hi " + collision.GetContact(0).point);
-            //GameEvents.instance.HitHammer(collisionX, collisionZ);
-        }
-        // With Tag Material
-        if (collision.gameObject.CompareTag("Material"))
-        {
-            collisionX = collision.GetContact(0).point.x;
-            collisionZ = collision.GetContact(0).point.z;
-            Debug.Log("Hi " + collision.GetContact(0).point);
-        }
-        if(collision.gameObject.CompareTag("Hittrigger"))
-        {
-            collisionX = collision.GetContact(0).point.x;
-            collisionZ = collision.GetContact(0).point.z;
-            Debug.Log("Hi " + collision.GetContact(0).point);
-            GameEvents.instance.HitHammer(collision.gameObject);
-            Debug.Log("Hier k�nnte ihre Werbung stehen");
-        }
-        if (collision.gameObject.CompareTag("StartTrigger"))
-        {
-            collisionX = collision.GetContact(0).point.x;
-            collisionZ = collision.GetContact(0).point.z;
-            Debug.Log("Hi " + collision.GetContact(0).point);
-            GameEvents.instance.StartHammer();
-            Debug.Log("StartTrigger getroffen");
-        }*/
+        
         if(this.gameObject.tag == "Hittrigger" && collision.gameObject.tag == "Hammer")
         {
             collisionX = collision.GetContact(0).point.x;
             collisionZ = collision.GetContact(0).point.z;
-            Debug.Log("Hi " + collision.GetContact(0).point);
-            PlayHammerSparks();
             GameEvents.instance.HitHammer(this.gameObject);
 
         }
@@ -68,14 +35,12 @@ public class Hammer : MonoBehaviour
         {
             collisionX = collision.GetContact(0).point.x;
             collisionZ = collision.GetContact(0).point.z;
-            Debug.Log("Hi " + collision.GetContact(0).point);
             GameEvents.instance.StartHammer();
-            Debug.Log("StartTrigger getroffen");
 
         }
     }
-
-    private void PlayHammerSparks()
+    /*Plays the hit Sparkanimation*/
+    public void PlayHammerSparks()
     {
         sparks.transform.SetParent(null);
         sparks.Play();

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /*Class saving the data of a weapon */
@@ -16,14 +14,16 @@ public class WeaponStats : MonoBehaviour
 
     /*Score from the Sharpening Game */
     public float sharpeningScore = 0;
+    /*Sharpened Animation Reference */
     public GameObject ps;
+    /*Sharpened Animation when spawned */
     private GameObject spawned = null;
     // Start is called before the first frame update
     void Start()
     {
     }
 
-    // Update is called once per frame
+    /*Sets the animation location to the weapon location */
     void Update()
     {
         if (spawned != null)
@@ -31,17 +31,19 @@ public class WeaponStats : MonoBehaviour
             spawned.transform.position = this.gameObject.transform.position;
         }
     }
-
+    /*Creates the sharpened Animation at the Object */
     public void polished() {
         spawned = Instantiate(ps);
         spawned.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
     }
-
+    /*Destroys the Animation on Weapon Destruction */
     public void OnDestroy()
     {
         Destroy(spawned);
     }
-
+    /*Returns, if the Weapon was sharpened
+      @return bool is sharpened
+     */
     public bool getPolished() {
         return spawned != null;
     }

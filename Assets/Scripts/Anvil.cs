@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /** Class handling the Anvil's in- and output Game Objects*/
@@ -109,13 +107,5 @@ public class Anvil : MonoBehaviour
         return count != 0 && count != 1 && count != 3 && count != 5;
     }
 
-    public int getFirst() {
-        for (int i = 0; i < states.Length; i++)
-        {
-            if (states[i] != null) {
-                return i;
-            }
-        }
-        return -1;
-    }
+    
 }

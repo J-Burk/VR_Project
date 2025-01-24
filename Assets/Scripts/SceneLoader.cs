@@ -11,7 +11,8 @@ public class SceneLoader : MonoBehaviour
 
     public void Update()
     {
-        if (menuPressAction.stateDown | Input.GetKeyDown("space")) {
+        if (menuPressAction.stateDown | Input.GetKeyDown("space"))
+        {
             SceneManager.LoadScene((actScene + 1) % 2);
         }
     }

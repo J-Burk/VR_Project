@@ -149,6 +149,10 @@ namespace Valve.VR.InteractionSystem
 			}
 		}
 
-		public void setbackHandPosition()         {             UpdateLinearMapping(startPosition);         }
+		// Set Back to Startposition
+		public void setbackHandPosition()         
+		{
+			UpdateLinearMapping(startPosition);         
+		}
 	}
 }

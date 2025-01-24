@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Valve.VR.InteractionSystem.Sample
@@ -83,12 +81,13 @@ namespace Valve.VR.InteractionSystem.Sample
             // Set Back Variable for Beware Flamespam
             if (startDistance <= 0.001)
             {
-                if (!isBeingUsed && moveBack)
-                {
-                    GetComponent<LinearDrive>().setbackHandPosition();
-                }
                 moveBack = false;
+            }
 
+            // Set back the Linear Drive for new Using
+            if(!isBeingUsed && !moveBack)
+            {
+                GetComponent<LinearDrive>().setbackHandPosition();
             }
         }
     }

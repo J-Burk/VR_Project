@@ -1,9 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using System.Net.Sockets;
-using System.Runtime.CompilerServices;
-using UnityEditor.Build;
 
 /*Class handling the Hammering system  */
 public class HammerSystem : MonoBehaviour
@@ -172,7 +169,6 @@ public class HammerSystem : MonoBehaviour
 
                 if((timingCircles[i].lifeTime <= 4.0f*rhythmTime[lvl] + hitTiming) && rhythmActive == -1)
                 {
-                    Debug.Log("Rhythm Started");
                     rhythmActive = 3;
                 }
 
@@ -204,7 +200,6 @@ public class HammerSystem : MonoBehaviour
             //Checks for appropriate temperature
             if (!checkTemperature())
             {
-                Debug.Log("Temperature Fail");
                 paused = true;
             }
         }
@@ -224,8 +219,6 @@ public class HammerSystem : MonoBehaviour
             int level = calculateLevel();
             if(level != -1 && oreType != -1)
             {
-                Debug.Log("Level: " + level);
-                Debug.Log("Hammer Game Start");
                 timingCircles = new List<timingCircle>();
                 lvl = level;
                 circlesSpawned = 0;
@@ -251,13 +244,13 @@ public class HammerSystem : MonoBehaviour
                 Destroy(timingCircles[i].circleObject);
             }
             gameRunning = false;
-            Debug.Log("Hammer Game Endm \n Score: " + progress);
 
             //Checks if the game has been passed or not
             if (progress >= circlesToSpawn[lvl] * demandedHitRate)
             {
                 GameEvents.instance.PlaySound("Success", this.gameObject.transform.position);
                 GameEvents.instance.HammerSuccess(weaponType, oreType, ((float)progress/10.0f));
+                GameEvents.instance.PlaySound("HammerOff", this.gameObject.transform.position);
                 return true;
             } else
             {
@@ -327,7 +320,6 @@ public class HammerSystem : MonoBehaviour
             float vectorX = (newX + fieldCenterX) - timingCircles[i].positionX;
             float vectorY = (newZ + fieldCenterZ)- timingCircles[i].positionZ;
             double distance = Math.Sqrt(vectorX * vectorX + vectorY * vectorY);
-            Debug.Log("Distance: " + distance);
 
             overlapping = distance <= circleDistance;
 
@@ -343,18 +335,20 @@ public class HammerSystem : MonoBehaviour
      */
     public void registerHit(GameObject hitCircle)
     {
-        Debug.Log("RegisterAnyHitCalled");
-        if (timingCircles.Count != 0)
+        if (timingCircles.Count != 0 && hitCircle == timingCircles[0].circleObject)
         {
-            Debug.Log("Circle Life Time = " + timingCircles[0].lifeTime);
-            if (timingCircles[0].lifeTime <= hitTiming && hitCircle == timingCircles[0].circleObject)
+            if (timingCircles[0].lifeTime <= hitTiming)
             {
                 GameEvents.instance.PlaySound("HammerSuccess", this.gameObject.transform.position);
-                Debug.Log("Hit at the right timing");
                 progress++;
-                Debug.Log("Progress Made: " + (float)progress / (float)circlesToSpawn[lvl]);
                 GameEvents.instance.MakeProgressHammer((float)progress / (float)circlesToSpawn[lvl]);
-            } else
+
+
+                Hammer sparksAccess = timingCircles[0].circleObject.transform.GetComponent<Hammer>();
+                sparksAccess.PlayHammerSparks();
+
+            }
+            else
             {
                 GameEvents.instance.PlaySound("HammerFail", this.gameObject.transform.position);
             }
@@ -367,6 +361,9 @@ public class HammerSystem : MonoBehaviour
             {
                 endGame();
             }
+        } else
+        {
+            GameEvents.instance.PlaySound("HammerFail", this.gameObject.transform.position);
         }
     }
 
@@ -396,8 +393,6 @@ public class HammerSystem : MonoBehaviour
      * Checks if the temperature of all Ingots on the anvil is acceptable
      * @return bool - is the temperature of all Ingots on the anvil acceptable
      */
-
-    //TODO states zu array?
     public bool checkTemperature()
     {
         bool allGood = true;
@@ -415,7 +410,6 @@ public class HammerSystem : MonoBehaviour
     public void displayTemperature()
     {
         int tempStatus = 2;
-        Material script;
         for (int i = 0; i < anvilClass.states.Length && tempStatus == 2; i++) {
             if(anvilClass.states[i] != null)
             {
@@ -484,16 +478,13 @@ public class HammerSystem : MonoBehaviour
         int maxScore = 10;
         int minScore = 2;
 
-        Debug.Log("MaterialValue: " + materialValue);
-        Debug.Log("NumberOfOre: " + numberOfOre);
 
 
         float score = materialValue + numberOfOre;
 
-        float inputInRange = score - 2;
-        float inputRatio = inputInRange / 8.0f; 
+        float inputInRange = score - (minScore);
+        float inputRatio = inputInRange / (maxScore-minScore); 
         score = inputRatio * 2.0f;
-        Debug.Log("Score: " + score);
         int lvl = (int) Math.Round(score);
         if(numberOfOre%2 == 1 )
         {

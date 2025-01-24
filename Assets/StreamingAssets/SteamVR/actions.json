@@ -50,7 +50,7 @@
       "type": "boolean"
     },
     {
-      "name": "/actions/default/in/MenuPress",
+      "name": "/actions/default/in/Menu",
       "type": "boolean"
     },
     {

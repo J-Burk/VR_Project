@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Valve.VR.InteractionSystem
 {
+    /*Steam VR-Class*/
     [RequireComponent(typeof(Interactable))]
     public class ItemSpawner : MonoBehaviour
     {

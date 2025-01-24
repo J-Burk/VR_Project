@@ -17,12 +17,8 @@ public class OrderSystem : MonoBehaviour
     public Canvas boardCanvas;
     public GameObject orderPrefab;
 
-    public Sprite dagger;
-    public Sprite axe;
-    public Sprite sword;
-
-    //TODO
     public Sprite[] weaponSprites;
+    public Sprite[] weaponMaterials;
 
     public Sprite smile;
     public Sprite neutral;
@@ -30,29 +26,12 @@ public class OrderSystem : MonoBehaviour
     public TextMeshPro dayCountText;
     public TextMeshProUGUI gameOverText;
 
-    /**
-    public Color[] typeColors = {
-      new Color(1.0f, 0.78f, 0.09f, 1.0f),
-      new Color(0.43f, 0.48f, 0.37f, 1.0f),
-      new Color(0.60f, 0.23f, 0.07f, 1.0f),
-      new Color(0.28f, 0.31f, 0.33f, 1.0f)
-    };
-
-    public Color color1 = new Color(1.0f, 0.78f, 0.09f, 1.0f);
-    public Color color2 = new Color(0.43f, 0.48f, 0.37f, 1.0f);
-    public Color color3 = new Color(0.60f, 0.23f, 0.07f, 1.0f);
-    public Color color4 = new Color(0.28f, 0.31f, 0.33f, 1.0f);
-    */
-
     private bool gameRunning = false;
     private bool gamePaused = false;
 
     /*Current customer satisfaction (HP of the player), increased by handing in Orders in time */
     private float satisfaction = 0.5f;
 
-    private int difficultyLevel = 1;
-
-    //TODO ?
     /*Current day (Score of the run) */
     private int dayCount = 0;
 
@@ -100,7 +79,6 @@ public class OrderSystem : MonoBehaviour
      */
     public void startGame()
     {
-        Debug.Log("Started Orders");
         gameRunning = true;
     }
 
@@ -117,16 +95,14 @@ public class OrderSystem : MonoBehaviour
     {
         GameEvents.instance.oPressed += startGame;
         GameEvents.instance.pPressed += pause;
-        if (dayCountText != null)
+        if (dayCountText)
         {
             dayCountText.text = dayCount.ToString();
         }
-        if (gameOverText != null)
+        if (gameOverText)
         {
             gameOverText.enabled = false;
         }
-        weaponSprites = new Sprite[3] { dagger, axe, sword};
-        //startGame();
     }
 
     // Update is called once per frame
@@ -146,8 +122,7 @@ public class OrderSystem : MonoBehaviour
                 {
                     Destroy(ordersList[i].orderImage);
                     ordersList.RemoveAt(i);
-                    Debug.Log("Order Deleted" + i);
-                    satisfaction -= baseSatisfactionChange * (1 + (difficultyLevel / 10));
+                    satisfaction -= baseSatisfactionChange * (1.0f + ((float) (dayCount-1) / 10.0f));
                     updateSatisfactionUI();
                     i--;
                 }
@@ -160,25 +135,21 @@ public class OrderSystem : MonoBehaviour
             }
             else if (ordersList.Count == 0)
             {
-                difficultyLevel++;
                 dayCount++;
                 dayCountText.text = dayCount.ToString();
-                Debug.Log("Base: " + fullfilmentTimeS + " difficulty: " + (difficultyLevel));
-                Debug.Log(Mathf.Max(1, Mathf.RoundToInt((float)difficultyLevel / 2.0f)));
 
                 //On even days, the order count goes up, and thus the fullfilment time needs to aswell
-                int orderCount = Mathf.Min(3, difficultyLevel / 2);
-                if (dayCount % 2 == 0 && dayCount != 0 && (difficultyLevel / 2) <= 3)
+                int orderCount = Mathf.Min(3, (dayCount+1) / 2);
+                if (dayCount % 2 == 1 && dayCount != 1 && (dayCount / 2) <= 3)
                 {
                     fullfilmentTimeS += baseFullfilmentTimeS;
                 }
-                Debug.Log("Neue Time: " + fullfilmentTimeS);
                 for (int i = 0; i < orderCount; i++)
                 {
                     createNewOrder();
-                    float randomFloat = Random.Range(0f, 1f);
-                    createBonusOrder = (randomFloat <= bonusOrderBaseProbability * difficultyLevel);
                 }
+                float randomFloat = Random.Range(0f, 1f);
+                createBonusOrder = (randomFloat <= bonusOrderBaseProbability * dayCount);
             }
 
 
@@ -191,8 +162,8 @@ public class OrderSystem : MonoBehaviour
     private void createNewOrder()
     {
         // Creates a random material and weapontype based on Lvl
-        int materialValue = weightedRandomization(materialCount-1);
-        int weaponTypeValue = weightedRandomization(weaponTypeCount-1);
+        int materialValue = weightedRandomization(materialCount);
+        int weaponTypeValue = weightedRandomization(weaponTypeCount);
 
         float timeLeft = fullfilmentTimeS;
 
@@ -202,12 +173,13 @@ public class OrderSystem : MonoBehaviour
         orderImg.transform.localPosition += new Vector3(ordersList.Count * 0.55f, 0, 0);
         orderImg.transform.localPosition += new Vector3(1.5f, 1.5f, 0);
 
-        //TODO gamescene anpassen
         //Set corrensponding weapon sprite
         Sprite weaponSprite = weaponSprites[weaponTypeValue];
         orderImg.transform.GetChild(2).GetComponent<Image>().sprite = weaponSprite;
+        Sprite materialSprite = weaponMaterials[materialValue];
+        orderImg.transform.GetChild(3).GetComponent<Image>().sprite = materialSprite;
 
-        //Change colour of the sprite based on material TODO color array
+
         switch (materialValue)
         {
             case 0:
@@ -233,31 +205,42 @@ public class OrderSystem : MonoBehaviour
             timeLeft = timeLeft
         });
 
-        Debug.Log("New Order Created. Material: " + materialValue + " Weapon: " + weaponTypeValue);
     }
 
     /*
-     * Creates a random number based on a maximum and the difficulty Lvl
-     * @param maxExclusiveValue - upper border for randomization
-     * @return int - a random number based on a maximum and the difficulty Lvl
-     */
+     Creates a random number based on a maximum and the difficulty Lvl
+    @param maxExclusiveValue - upper border for randomization
+    @return int - a random number based on a maximum and the difficulty Lvl*/
     private int weightedRandomization(int maxExclusiveValue)
     {
-        //TODO maximales level
-        //A random number is generated, then shifted based on the Lv
-        int weightedValue = Random.Range(0, maxExclusiveValue);
+        int weightedValue = -1;
 
-        weightedValue += (difficultyLevel - middleWeightLevel);
-
-        if (weightedValue < 0)
+        //Random ranges for lower difficulty levels are smaller
+        switch (dayCount)
         {
-            weightedValue = 0;
-        }
-        else if (weightedValue >= (maxExclusiveValue))
-        {
-            weightedValue = maxExclusiveValue--;
+            case 1:
+                weightedValue = 0;
+                break;
+            case 2:
+                weightedValue = Random.Range(0, 2);
+                break;
+            case 3:
+            case 4:
+                weightedValue = Random.Range(0, maxExclusiveValue-1);
+                break;
+            default:
+                break;
         }
 
+        //Creates a random number in the full range, and rerolls for a bigger number once for every difficulty level over the initial one
+        if (weightedValue == -1)
+        {
+            for (int i = 0; i <= Mathf.Min((dayCount - 5),3); i++)
+            {
+                int newValue = Random.Range(0, maxExclusiveValue);
+                weightedValue = Mathf.Max(newValue, weightedValue);
+            }
+        }
         return weightedValue;
     }
 
@@ -280,9 +263,7 @@ public class OrderSystem : MonoBehaviour
                 found = true;
                 //Changes Satisfaction based on the average of the Scores 
                 float overallScore = ((float) hammerScore + (float) sharpeningScore) / 2;
-                Debug.Log("Satisfaction Change: " + (float) baseSatisfactionChange * overallScore);
                 satisfaction += ( (float) baseSatisfactionChange * overallScore);
-                Debug.Log("Current Satisfaction: " + satisfaction);
 
                 Destroy(ordersList[i].orderImage);
                 ordersList.RemoveAt(i);
@@ -291,6 +272,7 @@ public class OrderSystem : MonoBehaviour
                 {
                     satisfaction = 1;
                 }
+   
                 updateSatisfactionUI();
 
                 if (createBonusOrder)
@@ -315,6 +297,10 @@ public class OrderSystem : MonoBehaviour
      */
     private void updateSatisfactionUI() 
     {
+        if (satisfaction < 0)
+        {
+            satisfaction = 0;
+        }
         satisfactionFill.GetComponent<Image>().fillAmount = satisfaction;
         satisfactionText.text = ((int) (satisfaction*100)).ToString();
         if (satisfaction <= 0.33f)
@@ -372,7 +358,7 @@ public class OrderSystem : MonoBehaviour
     IEnumerator GameOverCoroutine()
     {
         gameOverText.enabled = true;
-        gameOverText.text = "Game Over...\nYou made it until Day\n" + dayCount;
+        gameOverText.text = "Game Over...\nYou made it to Day\n" + dayCount;
 
         yield return new WaitForSeconds(5.0f);
 

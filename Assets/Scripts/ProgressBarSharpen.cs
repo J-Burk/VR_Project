@@ -1,14 +1,14 @@
 using UnityEngine;
 
 [ExecuteInEditMode()]
-public class ProgressBar : MonoBehaviour
+public class ProgressBarSharpen : MonoBehaviour
 {
-    //Sets Progressbar
+    //Grind Variables
     public float max = 1;
     public float current;
     public GameObject fill;
     public float fillMax = 1;
-    //Sets current Fill
+    //Sets Bar
     void Update()
     {
         GetCurrentFill();
@@ -16,15 +16,14 @@ public class ProgressBar : MonoBehaviour
 
     void Start()
     {
-        GameEvents.instance.progressMadeHammer += setFill;
+        GameEvents.instance.progressMadeSharpen += setFill;
     }
-    /*Set the Progress
-      @progress the to set variable*/
+    /*Sets the fill bar Variable*/
     public void setFill(float progress)
     {
         current = progress;
     }
-    /*Scales the Scaling and the filled of the fillbar*/
+    /*Sets the FillBar UI*/
     void GetCurrentFill()
     {
         Vector3 scale = fill.transform.localScale;

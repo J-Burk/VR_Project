@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FlameHandler : MonoBehaviour
@@ -13,7 +11,7 @@ public class FlameHandler : MonoBehaviour
     private ParticleSystem flameParticle;
     private float newGravity;
     private float actTemp;
-
+    /*Initializing the Flame*/
     void Start()
     {
         flameParticle = transform.GetChild(0).GetComponent<ParticleSystem>();
@@ -43,7 +41,8 @@ public class FlameHandler : MonoBehaviour
         actTemp = (newGravity * (temperatur - minTemperatur)) / 4;
         ChangeGravityModifier(actTemp);
     }
-
+    /* Changes the Gravity of the Flame
+      @float actTemp modifier for Gravity*/
     void ChangeGravityModifier(float actTemp)
     {
         // Set of the GravityModifier

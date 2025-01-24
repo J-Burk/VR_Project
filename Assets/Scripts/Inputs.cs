@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine.UI;
 using System;
 
-
+/*Desktop Mode Hotkeys for Testing*/
 public class Inputs : MonoBehaviour
 {
     private void Update()
@@ -16,7 +16,7 @@ public class Inputs : MonoBehaviour
             GameEvents.instance.PressH();
         }
 
-        //Schleif
+        //Sharpening
         if (Input.GetKeyDown(KeyCode.J))
         {
             GameEvents.instance.PressJ();

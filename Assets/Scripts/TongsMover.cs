@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Valve.VR.InteractionSystem.Sample
 {
     public class TongsMover : MonoBehaviour
     {
+        /*Tongs Variables for Setting Shapekeys*/
         public Interactable interactable;
         public SkinnedMeshRenderer[] renderers;
 
@@ -14,7 +13,7 @@ namespace Valve.VR.InteractionSystem.Sample
 
         public SteamVR_Action_Single gripSqueeze = SteamVR_Input.GetAction<SteamVR_Action_Single>("Squeeze");
         private new Rigidbody rigidbody;
-
+        /*Set Components of Tongs*/
         private void Start()
         {
             if (rigidbody == null)
@@ -25,7 +24,7 @@ namespace Valve.VR.InteractionSystem.Sample
             
             renderers = GetComponentsInChildren<SkinnedMeshRenderer>();
         }
-
+        /*Updates ShapeKey animation and Grip*/
         private void Update()
         {
             float grip = 0;

@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 public class Grindstone : MonoBehaviour
 {
@@ -27,31 +24,33 @@ public class Grindstone : MonoBehaviour
             }
         }
     }
-
+    /*is the Name valid?
+     @prarm name the given name
+     @return if valid*/
     private bool isValidName(string name) {
         return name == axeName || name == swordName || name == daggerName;
     }
 
+    /*Starts the Grinding animation and Sound if the Weapon is the collided Object*/
     private void OnTriggerEnter(Collider collision)
     {
         bool isValid = true;
         GameObject weapon = collision.gameObject;
         if (isValidName(weapon.name))
         {
+            //Gets the right Weapon child
             while (weapon.transform.parent != null && weapon.tag != "Weapon")
             {
                 weapon = weapon.transform.parent.gameObject;
             }
-            Debug.Log("Weapon at Root:" + weapon);
             weaponStats = weapon.GetComponent<WeaponStats>();
             isValid = !weaponStats.getPolished();
         }
+        //Checks if valid Object
         if (isValid && isValidName(collision.gameObject.name))
         {
-            Debug.Log(collision.gameObject.name);
             if (collision.gameObject.name == daggerName)
             {
-                Debug.Log("Dagger Enter");
                 sparks.Play();
                 GameEvents.instance.ToggleSharp(collision.gameObject, 0, true);
 
@@ -59,14 +58,12 @@ public class Grindstone : MonoBehaviour
 
             if (collision.gameObject.name == axeName)
             {
-                Debug.Log("Axe Enter");
                 sparks.Play();
                 GameEvents.instance.ToggleSharp(collision.gameObject, 1, true);
             }
 
             if (collision.gameObject.name == swordName)
             {
-                Debug.Log("Sword Enter");
                 sparks.Play();
                 GameEvents.instance.ToggleSharp(collision.gameObject, 2, true);
             }
@@ -74,67 +71,34 @@ public class Grindstone : MonoBehaviour
             GameEvents.instance.PlaySound("Grindstone", this.gameObject.transform.position);
         }
 
-        /**
-        if (collision.gameObject.name == "Iron Variant(Clone)")
-        {
-            Debug.Log("Eisen");
-        }
-        if (collision.gameObject.name == "Fire Steel Variant(Clone)")
-        {
-            Debug.Log("Feuerstein");
-        }
-        if (collision.gameObject.name == "Gold Variant(Clone)")
-        {
-            Debug.Log("Gold Gold Gold");
-        }
-        if (collision.gameObject.name == "Ingot(Clone)")
-        {
-            Debug.Log("Irgendso en Barren");
-        }
-        if (collision.gameObject.name == "Steel Variant(Clone)")
-        {
-            Debug.Log("Stahlhart");
-        }
-        if (collision.gameObject.name == "Hammer(Clone)")
-        {
-            Debug.Log("Hammer Sache");
-        }
-        */
     }
-
+    /*Deregisters the collided Weapon and stops the Animation and Sparks
+      @param collision collided Collider*/
+       
     private void OnTriggerExit(Collider collision)
     {
         weaponStats = null;
         if (collision.gameObject.name == daggerName)
         {
-            Debug.Log("Dagger Exit");
-            sparks.Stop();
-            //sparks.Stop(false, ParticleSystemStopBehavior.StopEmitting);
             GameEvents.instance.ToggleSharp(collision.gameObject, 0, false);
         }
 
         else if (collision.gameObject.name == axeName)
         {
-            Debug.Log("Axe Exit");
-            sparks.Stop();
-            //sparks.Stop(false, ParticleSystemStopBehavior.StopEmitting);
             GameEvents.instance.ToggleSharp(collision.gameObject, 1, false);
         }
 
         else if (collision.gameObject.name == swordName)
         {
-            Debug.Log("Sword Exit");
-            sparks.Stop();
-            //sparks.Stop(false, ParticleSystemStopBehavior.StopEmitting);
             GameEvents.instance.ToggleSharp(collision.gameObject, 2, false);
         }
+        sparks.Stop();
         GameEvents.instance.PlaySound("GrindstoneStop", this.gameObject.transform.position);
     }
-
+    /*Stops the Grinding Animation and Sound and Deregister Weapon*/
     private void Stop() {
         weaponStats = null;
         sparks.Stop();
-        //sparks.Stop(false, ParticleSystemStopBehavior.StopEmitting);
         GameEvents.instance.ToggleSharp(null, 2, false);
         GameEvents.instance.PlaySound("GrindstoneStop", this.gameObject.transform.position);
     }
